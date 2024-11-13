@@ -10,7 +10,9 @@ type Editor struct {
 	lastError        error
 	reader           io.Reader
 	writer           io.Writer
+	buffer           *Buffer
 	prompt           string
+	filename         string
 	mode             EditorMode
 	isPromptShown    bool
 	isFullErrorShown bool
@@ -24,6 +26,7 @@ func NewEditor(reader io.Reader, writer io.Writer, prompt string, isPromptShown 
 		prompt:        prompt,
 		isPromptShown: isPromptShown,
 		mode:          ModeCommand,
+		buffer:        NewBuffer(),
 	}
 }
 

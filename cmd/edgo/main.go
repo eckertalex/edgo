@@ -27,8 +27,13 @@ func main() {
 		prompt = "*"
 	}
 
-	editor := NewEditor(os.Stdin, os.Stdout, prompt, isPromptShown)
-	if err := editor.Run(); err != nil {
+	ed := NewEditor(os.Stdin, os.Stdout, prompt, isPromptShown)
+
+	if flag.NArg() == 1 {
+		ed.cmdEdit(flag.Arg(0))
+	}
+
+	if err := ed.Run(); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}
