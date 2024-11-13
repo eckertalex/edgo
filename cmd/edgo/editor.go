@@ -53,6 +53,8 @@ func (ed *Editor) executeCommand(cmd Command) {
 		err = ed.cmdShowLastError()
 	case "H":
 		err = ed.cmdToggleShowFullError()
+	case "e":
+		err = ed.cmdEdit(cmd.name)
 	case "q":
 		err = ed.cmdQuit()
 	case "Q":
