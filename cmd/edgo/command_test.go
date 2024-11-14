@@ -11,14 +11,15 @@ func TestParseCommand(t *testing.T) {
 		expected Command
 	}{
 		{"P", Command{name: "P", args: []string{}}},
+		{"h", Command{name: "h", args: []string{}}},
+		{"H", Command{name: "H", args: []string{}}},
+		{"e", Command{name: "e", args: []string{}}},
 		{"p", Command{name: "p", args: []string{}}},
-		{"q", Command{name: "q", args: []string{}}},
-		{"x", Command{name: "x", args: []string{}}},
-		{"Q", Command{name: "Q", args: []string{}}},
+		{"n", Command{name: "n", args: []string{}}},
 		{".", Command{name: ".", args: []string{}}},
 		{"$", Command{name: "$", args: []string{}}},
-		{"+", Command{name: "+", args: []string{}}},
-		{"-", Command{name: "-", args: []string{}}},
+		{"q", Command{name: "q", args: []string{}}},
+		{"Q", Command{name: "Q", args: []string{}}},
 
 		{"w filename.txt", Command{name: "w", args: []string{"filename.txt"}}},
 		{"e filename.txt", Command{name: "e", args: []string{"filename.txt"}}},

@@ -54,7 +54,17 @@ func (ed *Editor) executeCommand(cmd Command) {
 	case "H":
 		err = ed.cmdToggleShowFullError()
 	case "e":
-		err = ed.cmdEdit(cmd.name)
+		err = ed.cmdRead(cmd.args[0])
+	case "p":
+		err = ed.cmdPrint(false)
+	case "n":
+		err = ed.cmdPrint(true)
+	case ".":
+		err = ed.cmdPrint(false)
+	case "$":
+		fmt.Fprintln(ed.writer, "TODO")
+	case "w":
+		fmt.Fprintln(ed.writer, "TODO")
 	case "q":
 		err = ed.cmdQuit()
 	case "Q":

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -17,16 +16,6 @@ func (ed *Editor) cmdTogglePrompt() error {
 	return nil
 }
 
-func (ed *Editor) cmdToggleShowFullError() error {
-	ed.isFullErrorShown = !ed.isFullErrorShown
-
-	if ed.isFullErrorShown {
-		ed.cmdShowLastError()
-	}
-
-	return nil
-}
-
 func (ed *Editor) cmdShowLastError() error {
 	if ed.lastError != nil {
 		fmt.Fprintln(ed.writer, ed.lastError)
@@ -34,12 +23,23 @@ func (ed *Editor) cmdShowLastError() error {
 	return nil
 }
 
-func (ed *Editor) cmdEdit(filename string) error {
+func (ed *Editor) cmdToggleShowFullError() error {
+	var err error
+
+	ed.isFullErrorShown = !ed.isFullErrorShown
+	if ed.isFullErrorShown {
+		err = ed.cmdShowLastError()
+	}
+
+	return err
+}
+
+func (ed *Editor) cmdRead(filename string) error {
 	ed.filename = filepath.ToSlash(filename)
 
-	stat, err := os.Stat(ed.filename)
+	_, err := os.Stat(ed.filename)
 	if os.IsNotExist(err) {
-		fmt.Fprintf(os.Stdout, "%s: No such file or directory\n", ed.filename)
+		fmt.Fprintf(os.Stdout, "%s: No such file or directory\n", filename)
 		return nil
 	}
 
@@ -47,23 +47,30 @@ func (ed *Editor) cmdEdit(filename string) error {
 		return fmt.Errorf("error stating file: %w", err)
 	}
 
-	ed.buffer.Clear()
-	fmt.Fprintf(os.Stdout, "%d\n", stat.Size())
-
-	file, err := os.Open(ed.filename)
+	file, err := os.Open(filename)
 	if err != nil {
 		return err
 	}
 	defer file.Close()
 
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		ed.buffer.Append(scanner.Text())
-	}
-
-	if err := scanner.Err(); err != nil {
+	bytesRead, err := ed.buffer.ReadFrom(file)
+	if err != nil {
 		return err
 	}
+	fmt.Fprintf(ed.writer, "%d\n", bytesRead)
 
 	return nil
+}
+
+func (ed *Editor) cmdPrint(showLineNumber bool) error {
+	var err error
+
+	currentLine := ed.buffer.Current()
+	if showLineNumber {
+		_, err = fmt.Fprintf(ed.writer, "%d\t%s\n", ed.buffer.index, currentLine)
+	} else {
+		_, err = fmt.Fprintf(ed.writer, "%s\n", currentLine)
+	}
+
+	return err
 }

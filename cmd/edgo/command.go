@@ -42,8 +42,17 @@ func parseCommand(input string) Command {
 	args := parts[1:]
 
 	validCommands := map[string]bool{
-		"w": true, "e": true, "P": true, "p": true, "q": true, "x": true,
-		"Q": true, ".": true, "$": true, "+": true, "-": true,
+		"P": true,
+		"h": true,
+		"H": true,
+		"e": true,
+		"p": true,
+		"n": true,
+		".": true,
+		"$": true,
+		"w": true,
+		"q": true,
+		"Q": true,
 	}
 
 	if validCommands[name] {
