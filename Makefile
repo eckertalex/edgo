@@ -55,7 +55,7 @@ tidy:
 ## build/edo: build the cmd/edo application
 .PHONY: build/edo
 build/edo:
-	@go build -v -o=./edo ./cmd/edo
+	@go build -v -o=./edo .
 
 ## run/edo: run the cmd/edo application
 .PHONY: run/edo
