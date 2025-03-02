@@ -1,4 +1,4 @@
-module github.com/eckertalex/edgo
+module github.com/eckertalex/edo
 
 go 1.24.0
 

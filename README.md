@@ -1,6 +1,6 @@
-# edgo
+# edo
 
-A minimal implementation of the classic Unix line editor `ed` written in Go.
+Go clone of [ed(1)](https://man.openbsd.org/ed.1), the classic Unix line editor
 
 ## Usage
 
@@ -8,13 +8,13 @@ A minimal implementation of the classic Unix line editor `ed` written in Go.
 
 ```bash
 # Start with empty buffer
-edgo
+edo
 
 # Edit a file
-edgo filename.txt
+edo filename.txt
 
 # Start with custom prompt
-edgo -p "* "
+edo -p "* "
 ```
 
 ### Command Line Flags
@@ -25,7 +25,7 @@ edgo -p "* "
 ### Example Session
 
 ```
-$ edgo
+$ edo
 *a
 hello world
 line two

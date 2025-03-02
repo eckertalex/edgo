@@ -55,14 +55,14 @@ tidy:
 	@echo "Formatting .go files..."
 	go fmt ./...
 
-## build/edgo: build the cmd/edgo application
-.PHONY: build/edgo
-build/edgo:
-	@go build -v -ldflags "$(LDFLAGS)" -o=./edgo ./cmd/edgo
+## build/edo: build the cmd/edo application
+.PHONY: build/edo
+build/edo:
+	@go build -v -ldflags "$(LDFLAGS)" -o=./edo ./cmd/edo
 
-## run/edgo: run the cmd/edgo application
-.PHONY: run/edgo
-run/edgo: build/edgo
-	@./edgo
+## run/edo: run the cmd/edo application
+.PHONY: run/edo
+run/edo: build/edo
+	@./edo
 
 # vim: set tabstop=4 shiftwidth=4 noexpandtab
