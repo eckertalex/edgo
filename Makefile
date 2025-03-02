@@ -26,13 +26,17 @@ confirm:
 
 ## audit: run quality control checks
 .PHONY: audit
-audit: test
+audit:
+	@echo "Checking module dependencies"
 	go mod tidy -diff
 	go mod verify
+	@echo "Vetting code..."
 	test -z "$(shell gofmt -l .)" 
 	go vet ./...
-	go run honnef.co/go/tools/cmd/staticcheck@latest -checks=all,-ST1000,-U1000 ./...
-	go run golang.org/x/vuln/cmd/govulncheck@latest ./...
+	go tool staticcheck -checks=all,-ST1000,-U1000 ./...
+	go tool govulncheck ./...
+	@echo "Running tests..."
+	go test -v -race -vet=off ./...
 
 ## test: run all tests
 .PHONY: test
@@ -46,17 +50,19 @@ test:
 ## tidy: tidy and format all .go files
 .PHONY: tidy
 tidy:
+	@echo "Tidying module dependencies..."
 	go mod tidy
+	@echo "Formatting .go files..."
 	go fmt ./...
 
 ## build/edgo: build the cmd/edgo application
 .PHONY: build/edgo
 build/edgo:
-	@go build -v -ldflags "$(LDFLAGS)" -o=./tmp/edgo ./cmd/edgo
+	@go build -v -ldflags "$(LDFLAGS)" -o=./edgo ./cmd/edgo
 
 ## run/edgo: run the cmd/edgo application
 .PHONY: run/edgo
 run/edgo: build/edgo
-	@./tmp/edgo
+	@./edgo
 
 # vim: set tabstop=4 shiftwidth=4 noexpandtab
